@@ -161,7 +161,10 @@ void CircularDoublyChain<T>::Delete(void) //delete the first element after first
 template <class T>
 void CircularDoublyChain<T>::Add(const T& element) //add a new node after first
 {
-	DoublyChainNode<T>* newnode = GetNode();
+	
+	DoublyChainNode<T>* newnode;
+	if (element == GetNode()) newnode = element;
+	else newnode = new DoublyChainNode<T>(element);
 	if (!first) //insert into empty list
 	{
 		first = newnode;
