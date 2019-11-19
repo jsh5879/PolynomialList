@@ -1,7 +1,7 @@
 /*
-학번:
-이름:
-github id:
+학번: 201524561
+이름: 장석환
+github id: jsh5879
 문제: headnode가 있는 circular doubly linked list로 polynomial을 구성한다.
 - headnode는 exp = -1로 정의한다.
 - available list를 유지하며 list 반환과 사용에 getNode, retNode를 사용한다.

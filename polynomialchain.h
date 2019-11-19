@@ -42,9 +42,9 @@ public:
 	DoublyChainNode<T>* GetNode();
 	void RetNode(DoublyChainNode<T>& x);
 	//void Merge(CircularDoublyChain<T>& b);
-	friend istream& operator>>(istream&, CircularDoublyChain&)
-		friend ostream& operator<<(ostream&, CircularDoublyChain&)
-		CircularDoublyChainIterator<T> begin() const { return CircularDoublyChainIterator<T>(first); }
+	friend istream& operator>>(istream&, CircularDoublyChain&);
+	friend ostream& operator<<(ostream&, CircularDoublyChain&);
+	CircularDoublyChainIterator<T> begin() const { return CircularDoublyChainIterator<T>(first); }
 	CircularDoublyChainIterator<T> end() const { return CircularDoublyChainIterator<T>(nullptr); }
 private:	
 	int n; //number of items
@@ -91,22 +91,48 @@ public:
 	void Delete();
 	void Displayav() { poly.displayav(); };
 	T Evaluate(T&) const;//f(x)에 대하여 x에 대한 값을 구한다
-	polynomial<T> Multiply(Polynomial<T>&); //f(x) * g(x)
+	//polynomial<T> Multiply(Polynomial<T>&); //f(x) * g(x)
 	Polynomial(const Polynomial& p); //copy constructor
-	friend istream& operator>>(istream&, Polynomial&);//polynomial 입력
-	friend ostream& operator<<(ostream&, Polynomial&);//polynomial 출력
+	friend istream& operator>>(istream&, const Polynomial<T>&);//polynomial 입력
+	friend ostream& operator<<(ostream&, const Polynomial<T>&);//polynomial 출력
 	const Polynomial& operator=(const Polynomial&) const;
 	~Polynomial();
 	Polynomial operator-(const Polynomial&)const;
+	Polynomial<T> operator+(Polynomial<T> b);
+	Polynomial<T> operator*(Polynomial<T> b);
+
 
 private:
 	CircularDoublyChain<Term<T> > poly;
 };
 
 template <typename valType>
-inline ostream& operator<< (ostream& os, const Term<valType>& term) {
-	os << term.coef << "^" << term.exp;
+inline ostream& operator<< (ostream& os, const Polynomial<valType>& p) {
+	CircularDoublyChainIterator<Term<valType>> iter = p.poly.begin();
+
+	while (!iter.isEmpty())
+	{
+		os << iter->coef << "^" << iter->exp;
+		iter++;
+	}
+	
 	return os;
+}
+
+
+template <typename valType>
+inline ostream& operator>> (istream& is, const Polynomial<valType>& p) {
+	CircularDoublyChainIterator<Term<valType>> iter = p.poly.begin();
+
+	while (!iter.isEmpty())
+	{
+		is >> iter->coef;
+		is >> iter->exp;
+		iter++;
+	}
+
+	return is;
+
 }
 template <class T>
 DoublyChainNode<T>::DoublyChainNode(const T& element) {
@@ -246,9 +272,46 @@ template<class T> void Polynomial<T>::addAll(Polynomial<T>* b) {
 	}
 }
 
+template<class T>
+inline T Polynomial<T>::Evaluate(T&) const
+{
+	return T();
+}
 
+/*
 template<class T>
 Polynomial<T> Polynomial<T>::operator+(const Polynomial<T>& b) const {
+	Term<T> temp;
+	CircularDoublyChainIterator<Term<T>> ai = poly.begin(), bi = b.poly.begin();
+	Polynomial<T> c;
+
+	while (ai && bi) {//current nodes are not null
+
+		if (ai->exp == bi->exp) {
+			int sum = ai->coef + bi->coef;
+			if (sum) c.poly.InsertBack(temp.Set(sum, ai->exp));
+			ai++, bi++; //advance to next term
+		}
+		else if (ai->exp < bi->exp) {
+			c.poly.InsertBack(temp.Set(bi->coef, bi->exp));
+			bi++;//next term of b
+		}
+	}
+
+	while (!ai.isEmpty()) {//copy rest of a
+		c.poly.InsertBack(temp.Set(ai->coef, ai->exp));
+		ai++;
+	}
+	while (!bi.isEmpty()) {//copy rest of b
+		c.poly.InsertBack(temp.Set(bi->coef, bi->exp));
+		bi++;
+	}
+	return c;
+}*/
+
+template<class T>
+Polynomial<T> Polynomial<T>::operator+(Polynomial<T> b)
+{
 	Term<T> temp;
 	CircularDoublyChainIterator<Term<T>> ai = poly.begin(), bi = b.poly.begin();
 	Polynomial<T> c;
