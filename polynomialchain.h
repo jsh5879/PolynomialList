@@ -122,15 +122,19 @@ inline ostream& operator<< (ostream& os, const Polynomial<valType>& p) {
 
 template <typename valType>
 inline ostream& operator>> (istream& is, const Polynomial<valType>& p) {
-	CircularDoublyChainIterator<Term<valType>> iter = p.poly.begin();
+	int n;
+	cout << "항의갯수를 입력하세요 : ";
+	is >> n;
 
-	while (!iter.isEmpty())
-	{
-		is >> iter->coef;
-		is >> iter->exp;
-		iter++;
+	for (int i = 0; i < n; i++) {
+		Term<T> temp;
+		cout << "coef: ";
+		is >> temp.coef;
+		cout << "exp: ";
+		is >> temp.exp;
+		p.add(temp.coef, temp.exp);
 	}
-
+	
 	return is;
 
 }
