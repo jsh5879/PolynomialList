@@ -67,7 +67,7 @@ int main(void) {
 		}
 		case 'v':
 			cout << "av list : ";
-			f.Displayav();
+			//f.Displayav();
 			break;
 		default:
 			cout << "WRONG INPUT  " << endl;
