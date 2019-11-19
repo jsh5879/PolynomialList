@@ -10,20 +10,16 @@ github id:
 #include "polynomialchain.h"
 using namespace std;
 
-
-
 int main(void) {
-	char select;
-	Term<int>* tempTerm;
-	ChainNode<Term<int>> cn;
-	Chain<Term<int>> f, g, h, k;
-	ChainIterator<Term<int>> iter;
-	int c, e;
+	char select = '0';
+	Polynomial<int> f, g, h, t;
+	int x, resultf, resultg, resulth, resultt;
 
-	cout << endl << "Select command: a: Add_f, b: Add_g, c: Add_h, p: h + f * g, d: DisplayAll, e: Eval, q: exit" << endl;
-	cin >> select;
-	while (select != 'q')
+	do
 	{
+		cout << endl << "Select command: a: Add_f, b: Add_g, c: Add_h, d:Delete All, e: Evaluate, p: Print All, t: h + f * g, v: Display av list, q: exit" << endl;
+		cin >> select;
+
 		switch (select)
 		{
 		case 'a':
@@ -38,33 +34,46 @@ int main(void) {
 			cout << "Add a new polynomial: " << endl;
 			cin >> h;
 			break;
-		case 'p': //a+b
-			cout << "h = f + g: ";
-			{Chain<Term<int>> t;
-			t = f * g;
-			h = t + h;
-			}
-			//cout << sum;
+		case 't':
+			t = h + f * g;
+			cout << "h + f * g = " << t;
 			break;
 		case 'd':
+		{
+			cout << "Delete All chains" << endl;
+			f.Delete();
+			g.Delete();
+			h.Delete();
+			t.Delete();
+			break;
+		}
+		case 'e':
+			cout << "enter evaluete val = " << endl;
+			cin >> x;
+			resultf = f.Evaluate(x);//iterator 사용
+			resultg = g.Evaluate(x);
+			resulth = h.Evaluate(x);
+			cout << "f(" << x << ") = " << resultf << endl;
+			cout << "g(" << x << ") = " << resultg << endl;
+			cout << "h(" << x << ") = " << resulth << endl;
+			break;
+		case 'p':
+		{
 			cout << "display all: " << endl;
-			cout<< f;
+			cout << f;
 			cout << g;
 			cout << h;
 			break;
-		case 'e':
-			cout << "evaluete: " << endl;
-			resultf = f.evaluate(coef, exp);//iterator 사용
-			resultg = g.evaluate(coef, exp);
-			resulth = h.evaluate(coef, exp);
+		}
+		case 'v':
+			cout << "av list : ";
+			f.Displayav();
 			break;
 		default:
 			cout << "WRONG INPUT  " << endl;
 			cout << "Re-Enter" << endl;
 		}
-		cout << endl << "Select command: a: Add_f, b: Add_g, c: Add_h, p: h + f * g, d: DisplayAll, e: Eval, q: exit" << endl;
-		cin >> select;
-	}
+	} while (select != 'q');
 	system("pause");
 	return 0;
 }

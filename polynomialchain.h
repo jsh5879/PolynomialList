@@ -88,6 +88,8 @@ public:
 	Polynomial<T> operator+(const Polynomial<T>& b) const;
 	void add(T coef, T exponent);
 	void addAll(Polynomial<T>* poly);
+	void Delete();
+	void Displayav() { poly.displayav(); };
 	T Evaluate(T&) const;//f(x)에 대하여 x에 대한 값을 구한다
 	polynomial<T> Multiply(Polynomial<T>&); //f(x) * g(x)
 	Polynomial(const Polynomial& p); //copy constructor
