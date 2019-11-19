@@ -154,15 +154,14 @@ void CircularDoublyChain<T>::Delete(void) //delete the first element after first
 	{
 		DoublyChainNode<T>* temp = first;
 		first = next;
-		
-		delete temp;
+		RetNode(temp);
 	}
 	else cout << "Empty List: Not deleted" << endl;
 }
 template <class T>
 void CircularDoublyChain<T>::Add(const T& element) //add a new node after first
 {
-	DoublyChainNode<T>* newnode = new DoublyChainNode<T>(element);
+	DoublyChainNode<T>* newnode = GetNode();
 	if (!first) //insert into empty list
 	{
 		first = newnode;
