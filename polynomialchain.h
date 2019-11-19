@@ -282,6 +282,47 @@ inline T Polynomial<T>::Evaluate(T&) const
 	return T();
 }
 
+template<class T>
+inline Polynomial<T> Polynomial<T>::operator*(Polynomial<T> b)
+{
+	Term<T> temp;
+	CircularDoublyChainIterator<Term<T>> ai = poly.begin(), bi = b.poly.begin();
+	Polynomial<T> c;
+
+	while (!ai.isEmpty())
+	{
+		while (!bi.isEmpty())
+		{
+			c.poly.InsertBack(temp.Set((ai->coef * bi->coef), (ai->exp + bi->exp)));
+			bi++;
+		}
+		ai++;
+	}
+
+	while (ai && bi) {//current nodes are not null
+
+		if (ai->exp == bi->exp) {
+			int sum = ai->coef + bi->coef;
+			if (sum) c.poly.InsertBack(temp.Set(sum, ai->exp));
+			ai++, bi++; //advance to next term
+		}
+		else if (ai->exp < bi->exp) {
+			c.poly.InsertBack(temp.Set(bi->coef, bi->exp));
+			bi++;//next term of b
+		}
+	}
+
+	while (!ai.isEmpty()) {//copy rest of a
+		c.poly.InsertBack(temp.Set(ai->coef, ai->exp));
+		ai++;
+	}
+	while (!bi.isEmpty()) {//copy rest of b
+		c.poly.InsertBack(temp.Set(bi->coef, bi->exp));
+		bi++;
+	}
+	return c;
+}
+
 /*
 template<class T>
 Polynomial<T> Polynomial<T>::operator+(const Polynomial<T>& b) const {
