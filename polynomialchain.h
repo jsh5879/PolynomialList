@@ -39,6 +39,7 @@ public:
 	void Invert();
 	void Concatenate(CircularDoublyChain<T> b);
 	void InsertBack(const T& element);
+	void displayav();
 	DoublyChainNode<T>* GetNode();
 	void RetNode(DoublyChainNode<T>& x);
 	//void Merge(CircularDoublyChain<T>& b);
@@ -89,7 +90,7 @@ public:
 	void add(T coef, T exponent);
 	void addAll(Polynomial<T>* poly);
 	void Delete();
-//	void Displayav() { poly.displayav(); };
+	void Displayav() { poly.displayav(); };
 	T Evaluate(T&) const;//f(x)에 대하여 x에 대한 값을 구한다
 	//polynomial<T> Multiply(Polynomial<T>&); //f(x) * g(x)
 	Polynomial(const Polynomial& p); //copy constructor
@@ -153,6 +154,7 @@ void CircularDoublyChain<T>::Delete(void) //delete the first element after first
 	{
 		DoublyChainNode<T>* temp = first;
 		first = next;
+		
 		delete temp;
 	}
 	else cout << "Empty List: Not deleted" << endl;
@@ -202,6 +204,17 @@ void CircularDoublyChain<T>::InsertBack(const T& element) {
 		curr = curr->link;
 	}
 	curr->link = newnode;
+}
+
+template<class T>
+inline void CircularDoublyChain<T>::displayav()
+{
+	CircularDoublyChainIterator<T> iter = av->link;
+
+	while (!iter.isEmpty) {
+		cout << av->data;
+		iter++;
+	}
 }
 
 template <class T>
